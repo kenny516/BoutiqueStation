@@ -1,0 +1,22 @@
+﻿@page
+@model BoutiqueStation.Views.Home.weather
+
+@model BoutiqueStation.Controllers.WeatherResponse
+
+<h2>Weather Information</h2>
+
+@if (Model.Weather != null && Model.Weather.Any())
+{
+    <ul>
+        @foreach (var weather in Model.Weather)
+        {
+            <li>
+                Main: @weather.Main, Description: @weather.Description
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>No weather information available.</p>
+}

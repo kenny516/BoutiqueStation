@@ -11,20 +11,25 @@
         public DateOnly Daty { get; set; }
         public string IdClient { get; set; }
 
+        public Produit Produit { get; set; }
+        public Client Client { get; set; }
+
         public Vente()
         {
             IdMagasin = "PHARM001";
         }
 
-        public Vente(string id, string designation, string idClient,double quantite,double montant, DateOnly daty)
+        public Vente(string id, string designation, string idMagasin, double quantite, double montant, DateOnly daty, string idClient, Produit produit, Client client)
         {
             Id = id;
             Designation = designation;
-            IdMagasin = "PHARM001";
+            IdMagasin = idMagasin;
             Quantite = quantite;
             Montant = montant;
             Daty = daty;
             IdClient = idClient;
+            Produit = produit;
+            Client = client;
         }
     }
 }

@@ -1,29 +1,31 @@
-﻿using BoutiqueStation.Models.Shop; // Adjust this according to your actual namespace
+﻿using BoutiqueStation.Models.Shop; // Adjust this to match your actual namespace
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System.Net.Http;
+
 
 namespace BoutiqueStation.Controllers
 {
     public class VenteController : Controller
     {
-        private readonly HttpClient _httpClient;
+        private readonly IHttpClientFactory _httpClientFactory;
         private readonly ClientController _clientController;
 
-        public VenteController(HttpClient httpClient)
+        // Constructor using IHttpClientFactory to create HttpClient
+        public VenteController(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClient;
-            _clientController = new ClientController(httpClient);
+            _httpClientFactory = httpClientFactory;
+            _clientController = new ClientController(httpClientFactory.CreateClient());
         }
 
-        // Method to fetch list of ventes
+        // Method to fetch list of ventes from the API
         private async Task<List<Vente>> List()
         {
             const string apiUrl = "http://localhost:8080/api/vente";
+            var client = _httpClientFactory.CreateClient();
 
             try
             {
-                var response = await _httpClient.GetStringAsync(apiUrl);
+                var response = await client.GetStringAsync(apiUrl);
                 var ventes = JsonConvert.DeserializeObject<List<Vente>>(response);
                 return ventes;
             }
@@ -71,8 +73,7 @@ namespace BoutiqueStation.Controllers
             if (ModelState.IsValid)
             {
                 // Handle form submission logic here (save Vente)
-                // You may want to send the `vente` object to an API for saving
-                // Example: await _httpClient.PostAsJsonAsync("http://localhost:8080/api/vente", vente);
+                // Example: await _httpClientFactory.CreateClient().PostAsJsonAsync("http://localhost:8080/api/vente", vente);
 
                 // For now, redirect to an index page or confirmation
                 return RedirectToAction("Index");

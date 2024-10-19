@@ -16,7 +16,7 @@ namespace BoutiqueStation.Controllers
         // GET: Client/List
         public async Task<List<Client>> List()
         {
-            const string apiUrl = "https://api.example.com/clients"; // Replace with your API endpoint URL
+            const string apiUrl = "http://localhost:8080/station/client"; // Replace with your API endpoint URL
             var response = await _httpClient.GetAsync(apiUrl);
 
             if (response.IsSuccessStatusCode)

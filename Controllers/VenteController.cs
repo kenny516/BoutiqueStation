@@ -18,9 +18,10 @@ namespace BoutiqueStation.Controllers
         }
 
         // Method to fetch list of ventes from the API
+        [HttpGet]
         private async Task<List<Vente>> List()
         {
-            const string apiUrl = "http://localhost:8080/api/vente";
+            const string apiUrl = "http://localhost:8080/station/vente";
             var client = _httpClientFactory.CreateClient();
 
             try

@@ -1,17 +1,45 @@
-﻿
+﻿@model List<BoutiqueStation.Models.Shop.Vente>
+
 @{
-    Layout = null;
+    ViewData["Title"] = "Liste des Ventes";
 }
 
-<!DOCTYPE html>
+<h1>Liste des Ventes</h1>
 
-<html>
-<head>
-    <title>Liste Vente</title>
-</head>
-<body>
-<div>
-      
-</div>
-</body>
-</html>
+<table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Désignation</th>
+        <th>Magasin</th>
+        <th>Quantité</th>
+        <th>Montant</th>
+        <th>Date</th>
+        <th>Produit</th>
+        <th>Client</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var vente in Model)
+    {
+        <tr>
+            <td>@vente.Id</td>
+            <td>@vente.Designation</td>
+            <td>@vente.IdMagasin</td>
+            <td>@vente.Quantite</td>
+            <td>@vente.Montant</td>
+            <td>@vente.Daty.ToShortDateString()</td>
+            <td>
+                <strong>@vente.Produit.Val</strong><br />
+                @vente.Produit.Desce <br />
+                Prix Vente: @vente.Produit.PuVente<br />
+            </td>
+            <td>
+                <strong>@vente.Client.Nom</strong><br />
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<a href="@Url.Action("Create", "Vente")" class="btn btn-primary">Ajouter une nouvelle Vente</a>

@@ -3,12 +3,12 @@
 public class Client
 {
     public string Id { get; set; }
-    public string nom { get; set; }
+    public string Nom { get; set; }
     
     public Client(string id, string nom)
     {
         Id = id;
-        this.nom = nom;
+        this.Nom = nom;
     }
     public Client()
     {

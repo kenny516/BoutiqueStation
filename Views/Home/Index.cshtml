@@ -4,5 +4,14 @@
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <div class="mt-4">
+        <!-- Button to Add Vente -->
+        <a href="@Url.Action("Create", "Vente")" class="btn btn-primary btn-lg">Add Vente</a>
+        
+        <!-- Button to List Vente -->
+        <a href="@Url.Action("ListVente", "Vente")" class="btn btn-secondary btn-lg">List Vente</a>
+        
+        <!-- Button to View Stock (you can adjust the action and controller as needed) -->
+        <a href="@Url.Action("Stock", "Vente")" class="btn btn-success btn-lg">Stock</a>
+    </div>
 </div>

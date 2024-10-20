@@ -1,18 +1,35 @@
-﻿
+﻿@model List<BoutiqueStation.Models.Shop.Achat>
 
 @{
-    Layout = null;
+    ViewData["Title"] = "Liste des Achats";
 }
 
-<!DOCTYPE html>
+<h1>Liste des Achats</h1>
 
-<html>
-<head>
-    <title>Liste Achat</title>
-</head>
-<body>
-<div>
-      
-</div>
-</body>
-</html>
+<table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Fournisseur</th>
+        <th>Produit</th>
+        <th>Quantité</th>
+        <th>Montant</th>
+        <th>Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var achat in Model)
+    {
+        <tr>
+            <td>@achat.Id</td>
+            <td>@achat.IdFournisseur</td>  <!-- Replace with fournisseur name if available -->
+            <td>@achat.IdProduit</td>       <!-- Replace with product name if available -->
+            <td>@achat.Quantite</td>
+            <td>@achat.Montant</td>
+            <td>@achat.Daty.ToString("yyyy-MM-dd")</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<a href="@Url.Action("Create", "Achat")" class="btn btn-primary">Ajouter un nouvel Achat</a>

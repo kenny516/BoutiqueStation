@@ -68,7 +68,7 @@ namespace BoutiqueStation.Controllers
             // Ensure lists are not null
 
             // Create a new Vente object
-            Vente vente = new Vente
+            var vente = new Vente
             {
                 Client = new Client(), // Ensure Client is initialized
                 Produit = new Produit() // Ensure Produit is initialized
@@ -136,8 +136,8 @@ namespace BoutiqueStation.Controllers
             // return  View("~/Views/shop/vente/Error.cshtml");// Return the same view with validation errors
         }
 
-        // POST: Vente/Verif
-        [HttpPost]
+        // // POST: Vente/Verif
+        // [HttpPost]
         
         
         

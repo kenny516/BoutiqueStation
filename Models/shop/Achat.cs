@@ -7,7 +7,7 @@ public class Achat
     public string IdProduit { get; set; }
     public double Quantite { get; set; }
     public double Montant { get; set; }
-    public DateOnly Daty { get; set; }
+    public DateOnly Daty { get; set; }= DateOnly.FromDateTime(DateTime.Today);
 
 
     public Achat(string id, string idFournisseur, string idProduit, double quantite, double montant, DateOnly daty)

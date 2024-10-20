@@ -1,5 +1,6 @@
 ﻿using BoutiqueStation.Models.Shop;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace BoutiqueStation.Controllers;
 
@@ -15,6 +16,46 @@ public class AchatController : Controller
         _fournisseurController = new FournisseurController(httpClientFactory.CreateClient());
         _produitController = new ProduitController(httpClientFactory.CreateClient());
     }
+    
+    
+    [HttpGet]
+    private async Task<List<Achat>> List()
+    {
+        const string apiUrl = "http://localhost:8080/station/achat";
+        var client = _httpClientFactory.CreateClient();
+
+        try
+        {
+            var response = await client.GetStringAsync(apiUrl);
+            var achats = JsonConvert.DeserializeObject<List<Achat>>(response);
+            return achats;
+        }
+        catch (HttpRequestException ex)
+        {
+            throw new Exception($"Error calling API: {ex.Message}");
+        }
+    }
+    
+    
+    
+    [HttpGet("list")]
+    public async Task<IActionResult> ListAchat()
+    {
+        try
+        {
+            // Fetch ventes from the API
+            var achats = await List();
+
+            // Return the ListeVente view with the retrieved data
+            return View("~/Views/shop/achat/ListeAchat.cshtml", achats);
+        }
+        catch (Exception ex)
+        {
+            // Handle any errors that occurred while fetching the ventes
+            return StatusCode(500, ex.Message);
+        }
+    }
+
 
     // GET
     [HttpGet]
@@ -31,7 +72,8 @@ public class AchatController : Controller
     [HttpPost]
     public IActionResult Create(Achat achat)
     {
-        // Logic to save the achat to the database
+        
+        
         
         return RedirectToAction("Index");
     }

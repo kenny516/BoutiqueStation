@@ -1,0 +1,20 @@
+﻿@{
+Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Erreur de Validation</title>
+</head>
+<body>
+<div>
+    @* Affichage du modèle (si besoin) *@
+    @* Affichage des messages d'erreur *@
+    <div class="text-danger">
+        @ViewBag.err
+        @ViewBag.verif
+    </div>
+</div>
+</body>
+</html>

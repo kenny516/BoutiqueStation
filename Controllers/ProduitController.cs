@@ -14,21 +14,27 @@ namespace BoutiqueStation.Controllers
         }
 
         // GET: Produit/List
-        public async Task<JsonResult> List()
+        public async Task<List<Produit>> List()
         {
-            var apiUrl = "https://api.example.com/products"; // Replace with your API endpoint
+            var apiUrl = "http://localhost:8080/station/produit"; // Replace with your API endpoint
             var response = await _httpClient.GetAsync(apiUrl);
 
             if (response.IsSuccessStatusCode)
             {
                 var jsonString = await response.Content.ReadAsStringAsync();
                 var produits = JsonConvert.DeserializeObject<List<Produit>>(jsonString);
-                return Json(produits); // Return the list of products as JSON
+        
+                // Use the null-coalescing operator to return an empty list if produits is null
+                return produits ?? [];
             }
 
+            // Log an error or throw an exception if needed
+            Console.WriteLine($"API call failed with status code: {response.StatusCode}");
+    
             // Return an empty list if API call fails
-            return Json(new List<Produit>());
+            return [];
         }
+
     }
 }
 // [

@@ -1,51 +1,82 @@
-﻿@model BoutiqueStation.Models.Shop.Vente
+﻿@using BoutiqueStation.Models.Shop
+@model BoutiqueStation.Models.Shop.Vente
 
 @{
-ViewBag.Title = "Create Sale";
+    ViewBag.Title = "Create Sale";
 }
 
-<h2>Create a New Sale</h2>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-primary text-white text-center">
+                    <h2 class="mb-0">Create a New Sale</h2>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Create" method="post">
+                        <!-- Quantity Field -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input asp-for="Quantite" type="number" step="0.01" class="form-control" id="quantiteInput" placeholder="Entrez la quantité"/>
+                                    <label asp-for="Quantite">Quantity</label>
+                                    <span asp-validation-for="Quantite" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
 
-<form asp-action="Create" method="post">
-    <div class="form-group">
-        <label asp-for="Designation">Designation</label>
-        <input asp-for="Designation" class="form-control" />
-        <span asp-validation-for="Designation" class="text-danger"></span>
+                        <!-- Date Field -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input asp-for="Daty" type="date" class="form-control" id="dateInput"/>
+                                    <label asp-for="Daty">Date</label>
+                                    <span asp-validation-for="Daty" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Client Field -->
+                        <div class="mb-4">
+                            <div class="form-floating">
+                                <select asp-for="Client.Id" class="form-select" id="clientSelect">
+                                    <option value="">Select a Client</option>
+                                    @foreach (var client in (List<Client>)ViewBag.Clients)
+                                    {
+                                        <option value="@client.Id">@client.Nom</option>
+                                    }
+                                </select>
+                                <label asp-for="Client.Id">Client</label>
+                                <span asp-validation-for="Client.Id" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!-- Product Field -->
+                        <div class="mb-4">
+                            <div class="form-floating">
+                                <select asp-for="Produit.Id" class="form-select" id="produitSelect">
+                                    <option value="">Select a Product</option>
+                                    @foreach (var produit in (List<Produit>)ViewBag.Produits)
+                                    {
+                                        <option value="@produit.Id">@produit.Val</option>
+                                    }
+                                </select>
+                                <label asp-for="Produit.Id">Product</label>
+                                <span asp-validation-for="Produit.Id" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success btn-lg shadow">Create Sale</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <div class="form-group">
-        <label asp-for="Quantite">Quantity</label>
-        <input asp-for="Quantite" class="form-control" />
-        <span asp-validation-for="Quantite" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Montant">Amount</label>
-        <input asp-for="Montant" class="form-control" />
-        <span asp-validation-for="Montant" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Daty">Date</label>
-        <input asp-for="Daty" type="date" class="form-control" />
-        <span asp-validation-for="Daty" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="IdClient">Client</label>
-        <select asp-for="IdClient" class="form-control">
-            <option value="">Select a Client</option>
-            @foreach (var client in (List<BoutiqueStation.Models.Shop.Client>)ViewBag.Clients)
-            {
-            <option value="@client.Id">@client.Nom</option>
-            }
-        </select>
-        <span asp-validation-for="IdClient" class="text-danger"></span>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Create Sale</button>
-</form>
+</div>
 
 @section Scripts {
-<partial name="_ValidationScriptsPartial" />
+    <partial name="_ValidationScriptsPartial"/>
 }

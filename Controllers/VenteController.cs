@@ -9,12 +9,14 @@ namespace BoutiqueStation.Controllers
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly ClientController _clientController;
+        private readonly ProduitController _produitController;
 
         // Constructor using IHttpClientFactory to create HttpClient
         public VenteController(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
             _clientController = new ClientController(httpClientFactory.CreateClient());
+            _produitController = new ProduitController(httpClientFactory.CreateClient());
         }
 
         // Method to fetch list of ventes from the API
@@ -54,38 +56,93 @@ namespace BoutiqueStation.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
-
-        // GET: Vente/Create
+        
+// GET: Vente/Create
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            // Call ClientController to get the list of clients
-            var clients = await _clientController.List(); // Ensure you're using the right method
+            // Fetch clients and products
+            var clients = await _clientController.List();
+            var produits = await _produitController.List();
 
-            ViewBag.Clients = clients; // Pass the clients list to the view
+            // Ensure lists are not null
 
-            return View("~/Views/shop/vente/InsertionVente.cshtml", new Vente()); // Return the form view with a new Vente instance
+            // Create a new Vente object
+            Vente vente = new Vente
+            {
+                Client = new Client(), // Ensure Client is initialized
+                Produit = new Produit() // Ensure Produit is initialized
+            };
+
+            // Set ViewBag properties
+            ViewBag.Clients = clients;
+            ViewBag.Produits = produits;
+
+            return View("~/Views/shop/vente/InsertionVente.cshtml", vente);
         }
+
 
         // POST: Vente/Create
         [HttpPost]
         public async Task<IActionResult> Create(Vente vente)
         {
-            if (ModelState.IsValid)
+            try
             {
-                // Handle form submission logic here (save Vente)
-                // Example: await _httpClientFactory.CreateClient().PostAsJsonAsync("http://localhost:8080/api/vente", vente);
+                var client = _httpClientFactory.CreateClient();
+                var requestUri = "http://localhost:8080/station/vente"; // Update with your actual Java API endpoint
 
-                // For now, redirect to an index page or confirmation
-                return RedirectToAction("Index");
+                // Create form data to send in the POST request
+                var postData = new FormUrlEncodedContent(new[]
+                {
+                    new KeyValuePair<string, string>("magasin", vente.IdMagasin),
+                    new KeyValuePair<string, string>("produit",
+                        vente.Produit.Id), // Ensure this matches your API's expected key
+                    new KeyValuePair<string, string>("quantite", vente.Quantite.ToString()),
+                    new KeyValuePair<string, string>("etat", "14"), // Assuming a fixed value for "etat"
+                    new KeyValuePair<string, string>("client", vente.Client.Id),
+                    new KeyValuePair<string, string>("date",
+                        vente.Daty.ToString("yyyy-MM-dd")) // Ensure the date format is correct
+                });
+
+
+                // Send POST request
+                var response = await client.PostAsync(requestUri, postData);
+                response.EnsureSuccessStatusCode();
+
+                var responseContent = await response.Content.ReadAsStringAsync();
+
+                // Handle the response from the Java API
+                ViewBag.Message = responseContent;
+
+                return
+                    View(
+                        "~/Views/shop/vente/Confirmation.cshtml"); // Redirect to confirmation view or any other appropriate view
             }
+            catch (Exception ex)
+            {
+                // Handle any exceptions that occurred during the request
+                ViewBag.err = ex.Message;
+                // ViewBag.err = vente;
+                ViewBag.verif = ModelState.ErrorCount;
+                Console.WriteLine(ex.Message + Json(vente));
+                return View(
+                    "~/Views/shop/vente/Error.cshtml");
+            }
+            // var clients = await _clientController.List(); // Use the right method here
+            // var produits = await _produitController.List(); // Use the right method here
+            // ViewBag.Clients = clients;
+            // ViewBag.Produits = produits;
 
-            // If model validation fails, return the form with the client list again
-            var clients = await _clientController.List(); // Use the right method here
-            ViewBag.Clients = clients;
-            return View("~/Views/shop/vente/InsertionVente.cshtml", vente); // Return the same view with validation errors
+            // return  View("~/Views/shop/vente/Error.cshtml");// Return the same view with validation errors
         }
 
+        // POST: Vente/Verif
+        [HttpPost]
+        
+        
+        
+        
+        
         // Optional: Define an Index action for listing Vente entries
         public IActionResult Index()
         {

@@ -1,13 +1,12 @@
-﻿namespace BoutiqueStation.Models.shop;
+﻿using BoutiqueStation.Models.Shop;
+
+namespace BoutiqueStation.Models.shop;
 
 public class EtatStock
 {
     public string Id { get; set; }
     public string IdProduitLib { get; set; }
-    public string IdTypeProduit { get; set; }
-    public string IdTypeProduitLib { get; set; }
-    public string IdMagasin { get; set; }
-    public string IdMagasinLib { get; set; }
+    public Produit Produit { get; set; }
     public DateTime DateDernierInventaire { get; set; }
     public double Quantite { get; set; }
     public double Entree { get; set; }
@@ -23,16 +22,12 @@ public class EtatStock
     }
 
     // Constructeur avec tous les arguments
-    public EtatStock(string id, string idProduitLib, string idTypeProduit, string idTypeProduitLib, string idMagasin,
-        string idMagasinLib, DateTime dateDernierInventaire, double quantite, double entree, double sortie,
+    public EtatStock(string id, string idProduitLib,Produit produit,DateTime dateDernierInventaire, double quantite, double entree, double sortie,
         double reste, double puVente, string idUnite, string idUniteLib)
     {
         Id = id;
         IdProduitLib = idProduitLib;
-        IdTypeProduit = idTypeProduit;
-        IdTypeProduitLib = idTypeProduitLib;
-        IdMagasin = idMagasin;
-        IdMagasinLib = idMagasinLib;
+        Produit = produit;
         DateDernierInventaire = dateDernierInventaire;
         Quantite = quantite;
         Entree = entree;

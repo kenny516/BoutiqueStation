@@ -1,0 +1,44 @@
+﻿@model List<BoutiqueStation.Models.shop.EtatStock>
+
+@{
+ViewData["Title"] = "État des Stocks";
+}
+
+<h1>État des Stocks</h1>
+
+<table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Produit</th>
+        <th>Date Dernier Inventaire</th>
+        <th>Quantité Initiale</th>
+        <th>Entrée</th>
+        <th>Sortie</th>
+        <th>Reste</th>
+        <th>Prix de Vente</th>
+        <th>Unité</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var etatStock in Model)
+    {
+    <tr>
+        <td>@etatStock.Id</td>
+        <td>
+            <strong>@etatStock.Produit.Val</strong><br />
+            @etatStock.Produit.Desce
+        </td>
+        <td>@etatStock.DateDernierInventaire.ToShortDateString()</td>
+        <td>@etatStock.Quantite</td>
+        <td>@etatStock.Entree</td>
+        <td>@etatStock.Sortie</td>
+        <td>@etatStock.Reste</td>
+        <td>@etatStock.PuVente</td>
+        <td>@etatStock.IdUniteLib</td>
+    </tr>
+    }
+    </tbody>
+</table>
+
+<a href="@Url.Action("Create", "EtatStock")" class="btn btn-primary">Retour</a>

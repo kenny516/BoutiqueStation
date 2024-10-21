@@ -1,5 +1,6 @@
-﻿@{
-ViewData["Title"] = "Confirmation";
+﻿@using BoutiqueStation.Models.shop
+@{
+    ViewData["Title"] = "Confirmation";
 }
 
 <div class="container mt-4">
@@ -11,6 +12,19 @@ ViewData["Title"] = "Confirmation";
     </div>
 
     <div class="mt-3">
+        <!-- Check if ViewBag.vente is not null before rendering the "Modifier" button -->
+        @if (ViewBag.vente != null)
+        {
+            var vente = ViewBag.vente; // Store in a variable for easier access
+            <!-- Button to modify the vente if available -->
+            <a href="@Url.Action("CreateAvoir", "Vente", new { id = vente.Id, quantite = vente.Quantite })" class="btn btn-primary">Modifier</a>
+        }
+        else
+        {
+            <!-- Display a message if vente data is not available -->
+            <p class="text-danger">Vente details are not available for modification.</p>
+        }
+
         <!-- Button to go back to the homepage -->
         <a href="@Url.Action("Index", "Home")" class="btn btn-primary">Back to Home</a>
     </div>

@@ -66,6 +66,17 @@
                             </div>
                         </div>
 
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="bonInput" />
+                                    <label for="bonInput" class="form-check-label">Use Bon (Receipt)</label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Hidden field to store checkbox value -->
+                        <input type="hidden" id="bonValue" name="bonValue" value="false" />
+                        
                         <!-- Submit Button -->
                         <div class="d-grid">
                             <button type="submit" class="btn btn-success btn-lg shadow">Create Sale</button>
@@ -77,6 +88,14 @@
     </div>
 </div>
 
+
+
+<script>
+    // JavaScript to update hidden field based on checkbox value
+    document.getElementById('bonInput').addEventListener('change', function() {
+        document.getElementById('bonValue').value = this.checked ? 'true' : 'false';
+    });
+</script>
 @section Scripts {
     <partial name="_ValidationScriptsPartial"/>
 }

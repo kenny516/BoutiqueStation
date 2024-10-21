@@ -5,7 +5,7 @@ namespace BoutiqueStation.Models.Shop
     public class Vente
     {
         [Key]
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         [Required(ErrorMessage = "La désignation est requise.")]
         [StringLength(100, ErrorMessage = "La désignation ne peut pas dépasser 100 caractères.")]
@@ -27,12 +27,12 @@ namespace BoutiqueStation.Models.Shop
 
         public Vente()
         {
-            IdMagasin = "PHARM001";
+            IdMagasin = "MAG000245";
         }
 
-        public Vente(string id, string designation, string idMagasin, double quantite, double montant, DateOnly daty, string idClient, Produit produit, Client client)
+        public Vente(string? id, string designation, string idMagasin, double quantite, double montant, DateOnly daty, string idClient, Produit produit, Client client)
         {
-            IdMagasin = "PHARM001";
+            IdMagasin = "MAG000245";
             Id = id;
             Designation = designation;
             IdMagasin = idMagasin;
